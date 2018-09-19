@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Table V04</title>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static bootstrap/css/bootstrap.min.css %}" rel="stylesheet" type="text/css">
+    <link href="{% static fonts/font-awesome-4.7.0/css/font-awesome.min.css%}" rel="stylesheet" type="text/css">
+    <link href="{% static animate/animate.css %}" rel="stylesheet" type="text/css">
+    <link href="{% static css/util.css %}" rel="stylesheet" type="text/css">
+    <link href="{% static css/main.css %}" rel="stylesheet" type="text/css" >
+    <script src="{% static https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js %}"></script>
+    <script src="{% static https://api-maps.yandex.ru/2.1/?lang=en_US %}" type="text/javascript"></script>
+    <script type="text/javascript">
+        ymaps.ready(init);
+        var myMap;
+
+        function init(){
+            myMap = new ymaps.Map("map", {
+                center: [55.76, 37.64],
+                zoom: 7
+            });
+        }
+    </script>
+
+    <script src="{% static script.js %} "></script>
+</head>
+<body>
+
+<div class="shapka"><span>Cargo</span>cult</div>
+
+<div class="container">
+    <ul class="inside">
+        <li id="lilic">Licenses</li>
+        <li id = "limap">Map</li>
+        <li id="liord">Orders</li>
+    </ul>
+</div>
+
+
+<div class="main-table">
+    <table>
+        <thead>
+        <tr class="table-title">
+            <th>Car ID</th>
+            <th>Route</th>
+            <th>Type</th>
+            <th>Expired by</th>
+            <th class=>Trips was made</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>TP200X177</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Sand</td>
+            <td>02.01.2019</td>
+            <td>10</td>
+        </tr>
+
+        <tr>
+            <td>ME212A199</td>
+            <td>Torzhok - Tver</td>
+            <td>Boat</td>
+            <td>01.01.2020</td>
+            <td>0</td>
+        </tr>
+
+        <tr>
+            <td>TP200X177</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Sand</td>
+            <td>02.01.2019</td>
+            <td>10</td>
+        </tr>
+
+        <tr>
+            <td>ME212A199</td>
+            <td>Torzhok - Tver</td>
+            <td>Boat</td>
+            <td>01.01.2020</td>
+            <td>0</td>
+        </tr>
+
+        <tr>
+            <td>TP200X177</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Sand</td>
+            <td>02.01.2019</td>
+            <td>10</td>
+        </tr>
+
+        <tr>
+            <td>ME212A199</td>
+            <td>Torzhok - Tver</td>
+            <td>Boat</td>
+            <td>01.01.2020</td>
+            <td>0</td>
+        </tr>
+
+        <tr>
+            <td>TP200X177</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Sand</td>
+            <td>02.01.2019</td>
+            <td>10</td>
+        </tr>
+
+        <tr>
+            <td>ME212A199</td>
+            <td>Torzhok - Tver</td>
+            <td>Boat</td>
+            <td>01.01.2020</td>
+            <td>0</td>
+        </tr>
+
+        <tr>
+            <td>TP200X177</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Sand</td>
+            <td>02.01.2019</td>
+            <td>10</td>
+        </tr>
+
+        <tr>
+            <td>ME212A199</td>
+            <td>Torzhok - Tver</td>
+            <td>Boat</td>
+            <td>01.01.2020</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>TP200X177</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Sand</td>
+            <td>02.01.2019</td>
+            <td>10</td>
+        </tr>
+
+        <tr>
+            <td>ME212A199</td>
+            <td>Torzhok - Tver</td>
+            <td>Boat</td>
+            <td>01.01.2020</td>
+            <td>0</td>
+        </tr><tr>
+            <td>TP200X177</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Sand</td>
+            <td>02.01.2019</td>
+            <td>10</td>
+        </tr>
+
+        <tr>
+            <td>ME212A199</td>
+            <td>Torzhok - Tver</td>
+            <td>Boat</td>
+            <td>01.01.2020</td>
+            <td>0</td>
+        </tr><tr>
+            <td>TP200X177</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Sand</td>
+            <td>02.01.2019</td>
+            <td>10</td>
+        </tr>
+
+        <tr>
+            <td>ME212A199</td>
+            <td>Torzhok - Tver</td>
+            <td>Boat</td>
+            <td>01.01.2020</td>
+            <td>0</td>
+        </tr><tr>
+            <td>TP200X177</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Sand</td>
+            <td>02.01.2019</td>
+            <td>10</td>
+        </tr>
+
+        <tr>
+            <td>ME212A199</td>
+            <td>Torzhok - Tver</td>
+            <td>Boat</td>
+            <td>01.01.2020</td>
+            <td>0</td>
+        </tr><tr>
+            <td>TP200X177</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Sand</td>
+            <td>02.01.2019</td>
+            <td>10</td>
+        </tr>
+
+        <tr>
+            <td>ME212A199</td>
+            <td>Torzhok - Tver</td>
+            <td>Boat</td>
+            <td>01.01.2020</td>
+            <td>0</td>
+        </tr><tr>
+            <td>TP200X177</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Sand</td>
+            <td>02.01.2019</td>
+            <td>10</td>
+        </tr>
+
+        <tr>
+            <td>ME212A199</td>
+            <td>Torzhok - Tver</td>
+            <td>Boat</td>
+            <td>01.01.2020</td>
+            <td>0</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div id="map"></div>
+<div class="order">
+    <table>
+        <thead>
+        <tr class="table-title">
+            <th>Order ID</th>
+            <th>Route</th>
+            <th>Type</th>
+            <th>Begin</th>
+            <th class=>End</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>23AG60012554Q11</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Tank</td>
+            <td>02.01.2019</td>
+            <td>03.05.2034</td>
+        </tr>
+
+        <tr>
+            <td>11QZ1288R2D312</td>
+            <td>Torzhok - Tver</td>
+            <td>Military vehicles</td>
+            <td>01.01.2020</td>
+            <td>02.02.2030</td>
+        </tr>
+
+        <tr>
+            <td>23AG60012554Q11</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Tank</td>
+            <td>02.01.2019</td>
+            <td>03.05.2034</td>
+        </tr>
+
+        <tr>
+            <td>11QZ1288R2D312</td>
+            <td>Torzhok - Tver</td>
+            <td>Military vehicles</td>
+            <td>01.01.2020</td>
+            <td>02.02.2030</td>
+        </tr>
+
+        <tr>
+            <td>23AG60012554Q11</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Tank</td>
+            <td>02.01.2019</td>
+            <td>03.05.2034</td>
+        </tr>
+
+        <tr>
+            <td>11QZ1288R2D312</td>
+            <td>Torzhok - Tver</td>
+            <td>Military vehicles</td>
+            <td>01.01.2020</td>
+            <td>02.02.2030</td>
+        </tr>
+
+        <tr>
+            <td>23AG60012554Q11</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Tank</td>
+            <td>02.01.2019</td>
+            <td>03.05.2034</td>
+        </tr>
+
+        <tr>
+            <td>11QZ1288R2D312</td>
+            <td>Torzhok - Tver</td>
+            <td>Military vehicles</td>
+            <td>01.01.2020</td>
+            <td>02.02.2030</td>
+        </tr>
+
+        <tr>
+            <td>23AG60012554Q11</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Tank</td>
+            <td>02.01.2019</td>
+            <td>03.05.2034</td>
+        </tr>
+
+        <tr>
+            <td>11QZ1288R2D312</td>
+            <td>Torzhok - Tver</td>
+            <td>Military vehicles</td>
+            <td>01.01.2020</td>
+            <td>02.02.2030</td>
+        </tr>
+        <tr>
+            <td>23AG60012554Q11</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Tank</td>
+            <td>02.01.2019</td>
+            <td>03.05.2034</td>
+        </tr>
+
+        <tr>
+            <td>11QZ1288R2D312</td>
+            <td>Torzhok - Tver</td>
+            <td>Military vehicles</td>
+            <td>01.01.2020</td>
+            <td>02.02.2030</td>
+        </tr><tr>
+            <td>23AG60012554Q11</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Tank</td>
+            <td>02.01.2019</td>
+            <td>03.05.2034</td>
+        </tr>
+
+        <tr>
+            <td>11QZ1288R2D312</td>
+            <td>Torzhok - Tver</td>
+            <td>Military vehicles</td>
+            <td>01.01.2020</td>
+            <td>02.02.2030</td>
+        </tr><tr>
+            <td>23AG60012554Q11</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Tank</td>
+            <td>02.01.2019</td>
+            <td>03.05.2034</td>
+        </tr>
+
+        <tr>
+            <td>11QZ1288R2D312</td>
+            <td>Torzhok - Tver</td>
+            <td>Military vehicles</td>
+            <td>01.01.2020</td>
+            <td>02.02.2030</td>
+        </tr><tr>
+            <td>23AG60012554Q11</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Tank</td>
+            <td>02.01.2019</td>
+            <td>03.05.2034</td>
+        </tr>
+
+        <tr>
+            <td>11QZ1288R2D312</td>
+            <td>Torzhok - Tver</td>
+            <td>Military vehicles</td>
+            <td>01.01.2020</td>
+            <td>02.02.2030</td>
+        </tr><tr>
+            <td>23AG60012554Q11</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Tank</td>
+            <td>02.01.2019</td>
+            <td>03.05.2034</td>
+        </tr>
+
+        <tr>
+            <td>11QZ1288R2D312</td>
+            <td>Torzhok - Tver</td>
+            <td>Military vehicles</td>
+            <td>01.01.2020</td>
+            <td>02.02.2030</td>
+        </tr><tr>
+            <td>23AG60012554Q11</td>
+            <td>Moscow - St.Peterburg</td>
+            <td>Tank</td>
+            <td>02.01.2019</td>
+            <td>03.05.2034</td>
+        </tr>
+
+        <tr>
+            <td>11QZ1288R2D312</td>
+            <td>Torzhok - Tver</td>
+            <td>Military vehicles</td>
+            <td>01.01.2020</td>
+            <td>02.02.2030</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<div class="subsc">Powered by SkolTech IW Team#3</div>
+
+</body>
+</html>

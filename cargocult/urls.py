@@ -15,9 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url
-from .views import main_page
+from django.conf.urls import url, include
+from rest_framework import routers
+from .views import TrackViewSet, PointViewSet, RouteViewSet, LicenseViewSet
+
+
+router = routers.DefaultRouter()
+router.register(r'tracks', TrackViewSet)
+router.register(r'points', PointViewSet)
+router.register(r'routes', RouteViewSet)
+router.register(r'licences', LicenseViewSet)
+
 
 urlpatterns = [
-    url('^$', main_page),
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

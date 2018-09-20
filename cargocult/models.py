@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 
 class Track(models.Model):
@@ -14,13 +15,7 @@ class Point(models.Model):
 
 class Route(models.Model):
     name = models.CharField("Название маршрута", max_length=200, blank=True, null=True)
-    points_array = models.ManyToManyField(Point, through='RoutePoints')
-
-
-class RoutePoints(models.Model):
-    route = models.ForeignKey(Route, on_delete=models.CASCADE)
-    point = models.ForeignKey(Point, on_delete=models.CASCADE)
-    order = models.PositiveIntegerField("Номер остановки в маршруте")
+    points_array = ArrayField(models.IntegerField())
 
 
 class License(models.Model):

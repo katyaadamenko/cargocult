@@ -36,4 +36,13 @@ $(document).ready(function(){
         $('#liord').css('color', 'black');
     });
 
+    $('#lilic_upload').click(function() {
+        $('div.main-table').css('display', 'none');
+        $('#map').css('display', 'flex');
+        $('div.order').css('display', 'none');
+        $('#lilic').css('color', 'white');
+        $('#limap').css('color', 'black');
+        $('#liord').css('color', 'white');
+    });
+
 });

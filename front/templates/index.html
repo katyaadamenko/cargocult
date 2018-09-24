@@ -1,46 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Table V04</title>
     {% load staticfiles %}
+    <title>CargoCult - manage your license</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css'%}" rel="stylesheet" type="text/css">
-    <link href="{% static 'animate/animate.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'css/util.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css" >
+    <link rel="stylesheet" type="text/css" href={% static "bootstrap/css/bootstrap.min.css"%}>
+    <link rel="stylesheet" type="text/css" href={% static "fonts/font-awesome-4.7.0/css/font-awesome.min.css"%}>
+    <link rel="stylesheet" type="text/css" href={% static "animate/animate.css"%}>
+    <link rel="stylesheet" type="text/css" href={% static "css/util.css"%}>
+    <link rel="stylesheet" type="text/css" href={% static "css/main.css"%}>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://api-maps.yandex.ru/2.1/?lang=en_US" type="text/javascript"></script>
-    <script type="text/javascript">
-        ymaps.ready(init);
-        var myMap;
 
-        function init(){
-            myMap = new ymaps.Map("map", {
-                center: [55.76, 37.64],
-                zoom: 7
-            });
-        }
-    </script>
 
-    <script src="{% static 'js/script.js' %} "></script>
+    <script src={% static "js/script.js"%}></script>
 </head>
-<body>
+<body style="text-align: center">
+
+
+<div class="context">
+    <div class="context_inside">
+        <ul>
+
+    <li><div>
+        <label for="files" class="btn" style="font-size: 40pt; cursor: pointer; margin: 0; padding: 0">select image</label>
+        <input id="files" style="visibility:hidden; display: none" type="file">
+    </div></li>
+    <li>or type manually</li>
+            <li style="text-align: left">Car ID<input type="text" id="input_id" style="width: 100%; height: 50px"></li>
+            <li style="text-align: left">Route<input type="text" id="input_route" style="width: 100%; height: 50px"></li>
+            <li style="text-align: left">Type<input type="text" id="input_type" style="width: 100%; height: 50px"></li>
+            <li style="text-align: left">Expire<input type="text" id="input_exp" style="width: 100%; height: 50px"></li>
+            <li style="text-align: left">Number<input type="text" id="input_num" style="width: 100%; height: 50px"></li>
+            <li><div id="confirm" style="width: 100%; height: 50px; margin-top: 15px; background-color: #0b2e13; color: white; font-size: 25pt; cursor: pointer">Confirm</div></li>
+        </ul>
+    </div>
+
+</div>
+<div class="wrapper">
 
 <div class="shapka"><span>Cargo</span>cult</div>
+
+
 
 <div class="container">
     <ul class="inside">
         <li id="lilic">Licenses</li>
         <li id = "limap">Map</li>
         <li id="liord">Orders</li>
-        <li id="lilic_upload"> Upload license </li>
     </ul>
 </div>
 
-
-<div class="main-table">
+    <div class="add"><p>Add</p></div>
+    <div class="main-table">
     <table>
         <thead>
         <tr class="table-title">
@@ -51,171 +64,23 @@
             <th class=>Trips was made</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-            <td>TP200X177</td>
-            <td>Moscow - St.Peterburg</td>
-            <td>Sand</td>
-            <td>02.01.2019</td>
-            <td>10</td>
-        </tr>
+        <tbody id="lic_body">
+        <!--<tr>-->
+            <!--<td>TP200X177</td>-->
+            <!--<td>Moscow - St.Peterburg</td>-->
+            <!--<td>Sand</td>-->
+            <!--<td>02.01.2019</td>-->
+            <!--<td>10</td>-->
+        <!--</tr>-->
 
-        <tr>
-            <td>ME212A199</td>
-            <td>Torzhok - Tver</td>
-            <td>Boat</td>
-            <td>01.01.2020</td>
-            <td>0</td>
-        </tr>
+        <!--<tr>-->
+            <!--<td>ME212A199</td>-->
+            <!--<td>Torzhok - Tver</td>-->
+            <!--<td>Boat</td>-->
+            <!--<td>01.01.2020</td>-->
+            <!--<td>0</td>-->
+        <!--</tr>-->
 
-        <tr>
-            <td>TP200X177</td>
-            <td>Moscow - St.Peterburg</td>
-            <td>Sand</td>
-            <td>02.01.2019</td>
-            <td>10</td>
-        </tr>
-
-        <tr>
-            <td>ME212A199</td>
-            <td>Torzhok - Tver</td>
-            <td>Boat</td>
-            <td>01.01.2020</td>
-            <td>0</td>
-        </tr>
-
-        <tr>
-            <td>TP200X177</td>
-            <td>Moscow - St.Peterburg</td>
-            <td>Sand</td>
-            <td>02.01.2019</td>
-            <td>10</td>
-        </tr>
-
-        <tr>
-            <td>ME212A199</td>
-            <td>Torzhok - Tver</td>
-            <td>Boat</td>
-            <td>01.01.2020</td>
-            <td>0</td>
-        </tr>
-
-        <tr>
-            <td>TP200X177</td>
-            <td>Moscow - St.Peterburg</td>
-            <td>Sand</td>
-            <td>02.01.2019</td>
-            <td>10</td>
-        </tr>
-
-        <tr>
-            <td>ME212A199</td>
-            <td>Torzhok - Tver</td>
-            <td>Boat</td>
-            <td>01.01.2020</td>
-            <td>0</td>
-        </tr>
-
-        <tr>
-            <td>TP200X177</td>
-            <td>Moscow - St.Peterburg</td>
-            <td>Sand</td>
-            <td>02.01.2019</td>
-            <td>10</td>
-        </tr>
-
-        <tr>
-            <td>ME212A199</td>
-            <td>Torzhok - Tver</td>
-            <td>Boat</td>
-            <td>01.01.2020</td>
-            <td>0</td>
-        </tr>
-        <tr>
-            <td>TP200X177</td>
-            <td>Moscow - St.Peterburg</td>
-            <td>Sand</td>
-            <td>02.01.2019</td>
-            <td>10</td>
-        </tr>
-
-        <tr>
-            <td>ME212A199</td>
-            <td>Torzhok - Tver</td>
-            <td>Boat</td>
-            <td>01.01.2020</td>
-            <td>0</td>
-        </tr><tr>
-            <td>TP200X177</td>
-            <td>Moscow - St.Peterburg</td>
-            <td>Sand</td>
-            <td>02.01.2019</td>
-            <td>10</td>
-        </tr>
-
-        <tr>
-            <td>ME212A199</td>
-            <td>Torzhok - Tver</td>
-            <td>Boat</td>
-            <td>01.01.2020</td>
-            <td>0</td>
-        </tr><tr>
-            <td>TP200X177</td>
-            <td>Moscow - St.Peterburg</td>
-            <td>Sand</td>
-            <td>02.01.2019</td>
-            <td>10</td>
-        </tr>
-
-        <tr>
-            <td>ME212A199</td>
-            <td>Torzhok - Tver</td>
-            <td>Boat</td>
-            <td>01.01.2020</td>
-            <td>0</td>
-        </tr><tr>
-            <td>TP200X177</td>
-            <td>Moscow - St.Peterburg</td>
-            <td>Sand</td>
-            <td>02.01.2019</td>
-            <td>10</td>
-        </tr>
-
-        <tr>
-            <td>ME212A199</td>
-            <td>Torzhok - Tver</td>
-            <td>Boat</td>
-            <td>01.01.2020</td>
-            <td>0</td>
-        </tr><tr>
-            <td>TP200X177</td>
-            <td>Moscow - St.Peterburg</td>
-            <td>Sand</td>
-            <td>02.01.2019</td>
-            <td>10</td>
-        </tr>
-
-        <tr>
-            <td>ME212A199</td>
-            <td>Torzhok - Tver</td>
-            <td>Boat</td>
-            <td>01.01.2020</td>
-            <td>0</td>
-        </tr><tr>
-            <td>TP200X177</td>
-            <td>Moscow - St.Peterburg</td>
-            <td>Sand</td>
-            <td>02.01.2019</td>
-            <td>10</td>
-        </tr>
-
-        <tr>
-            <td>ME212A199</td>
-            <td>Torzhok - Tver</td>
-            <td>Boat</td>
-            <td>01.01.2020</td>
-            <td>0</td>
-        </tr>
         </tbody>
     </table>
 </div>
@@ -400,12 +265,12 @@
         </tr>
         </tbody>
     </table>
-</div>
 
-<div class="">
+</div>
 
 
 <div class="subsc">Powered by SkolTech IW Team#3</div>
+</div>
 
 </body>
 </html>

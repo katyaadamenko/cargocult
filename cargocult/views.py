@@ -1,8 +1,11 @@
+from django.views.generic.base import TemplateView
+from django.views import View
+from django.http import JsonResponse
 from rest_framework import viewsets
-# from .forms import UploadFileForm
+
 from .models import Track, Point, Route, License
 from .serializers import TrackSerializer, PointSerializer, RouteSerializer, LicenseSerializer
-from django.views.generic.base import TemplateView
+from .parsers import parse
 
 
 class IndexView(TemplateView):
@@ -55,3 +58,10 @@ class LicenseViewSet(viewsets.ModelViewSet):
 #     else:
 #         form = UploadFileForm()
 #     return render(request, 'add.html', {'form': form})
+
+
+class OrdersView(View):
+    def get(self, request, *args, **kwargs):
+        orders = parse('', '')
+        print(orders)
+        return JsonResponse({ 'orders': orders })

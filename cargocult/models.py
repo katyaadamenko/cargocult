@@ -25,4 +25,3 @@ class License(models.Model):
     start_date = models.DateField("Дата выдачи")
     end_date = models.DateField("Дата окончания")
     remaining_trips = models.IntegerField("Число оставшихся поездок", default=10)
-

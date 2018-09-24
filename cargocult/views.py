@@ -1,6 +1,10 @@
 from rest_framework import viewsets
+from django.views import View
+from django.http import JsonResponse
+
 from .models import Track, Point, Route, License
 from .serializers import TrackSerializer, PointSerializer, RouteSerializer, LicenseSerializer
+from .parsers import parse
 
 
 class TrackViewSet(viewsets.ModelViewSet):
@@ -21,3 +25,10 @@ class RouteViewSet(viewsets.ModelViewSet):
 class LicenseViewSet(viewsets.ModelViewSet):
     queryset = License.objects.all()
     serializer_class = LicenseSerializer
+
+
+class OrdersView(View):
+    def get(self, request, *args, **kwargs):
+        orders = parse('', '')
+        print(orders)
+        return JsonResponse({ 'orders': orders })

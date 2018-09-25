@@ -8,8 +8,6 @@ $(document).ready(function(){
         }
         return color;
     }
-
-
     function init() {
 
         // Объявляем набор опорных точек и массив индексов транзитных точек.
@@ -70,11 +68,7 @@ $(document).ready(function(){
         // Добавляем мультимаршрут на карту.
         myMap.geoObjects.add(multiRoute);
     }
-
     function init2() {
-
-
-
 
 
         var myMap = new ymaps.Map('map', {
@@ -97,25 +91,7 @@ $(document).ready(function(){
                 myMap.geoObjects.add(route);
             });
         }
-
-        //
-        //     ymaps.route(frame.list_of_lics[i]).then(function (route) {
-        //         route.options.set("mapStateAutoApply", true);
-        //         console.log(route.options);
-        //         console.log('here');
-        //         myMap.geoObjects.add(route);
-        //     }, function (err) {
-        //         throw err;
-        //     }, this);
-        // }
     }
-
-
-
-
-
-
-
 
     class Licence {
         constructor(id, route, type, expire, num) {
@@ -127,13 +103,27 @@ $(document).ready(function(){
         }
     }
 
-    var lic1 = new Licence('TP200X177', 'Moscow - St.Peterburg', 'Sand', '02.01.2019', 3);
-    var lic2 = new Licence('TP300X177', 'Tver - St.Peterburg', 'Turbo Engine', '30.03.2019', 4);
     var is_open = false;
+    var draw_tables = function(id, route, type, exp, num){
+        return '<tr><td>' + id + '</td><td>' + route + '</td><td>' + type + '</td><td>' + exp + '</td><td>' + num + '</td></tr>'
+    }
 
+    get_licences().then(data => {
+        for(var i=0; i<data.length; i++){
+            $('#lic_body').append(draw_tables(
+                                            data[i].track,
+                                            data[i].route.split(' - '),
+                                            data[i].number,
+                                            data[i].start_date,
+                                            data[i].end_date,
+                )
+            )
+        }
+        console.log(data);
+        });
 
     function main_frame(){
-        // this.list_of_lics = [lic1, lic2];
+
         this.list_of_lics = [];
         var content = document.getElementsByClassName('inside')[0].getElementsByTagName('*');
         var list_of_content = [];
@@ -171,32 +161,38 @@ $(document).ready(function(){
             })
 
 
-
         //Creating lics manually
 
         $('#confirm').unbind().click(function ()
         {
-            console.log(frame.list_of_lics);
             var lic = new Licence(
             $('#input_id')[0].value,
-            $('#input_route')[0].value.split(' - '),
+            $('#input_route')[0].value,
             $('#input_type')[0].value,
             $('#input_exp')[0].value,
             $('#input_num')[0].value);
+            console.log(lic);
+
+            // var resp = add_license(lic.id, lic.route[0], lic.num, lic.expire, lic.type);
+            console.log(lic);
+
+            add_license(lic.id, lic.route, lic.type, lic.expire, lic.num);
+
+            $('#lic_body').append(draw_tables(lic.id, lic.route.split(' - '), lic.type, lic.expire, lic.num));
+
             $('#warn').remove();
             $('.context').hide();
             $('.wrapper').css('opacity', '1');
             console.log($('#input_route'));
-            $('#lic_body').append('<tr><td>' + lic.id + '</td><td>' + $('#input_route')[0].value.split(' - ')[0] + '-' + $('#input_route')[0].value.split(' - ')[$('#input_route').length + 1] + '</td><td>' + lic.type + '</td><td>' + lic.expire + '</td><td>' + lic.num + '</td></tr>');
+            $('#lic_body').append();
             frame.list_of_lics.push(lic.route);
+
             delete lic;
             $('#input_id')[0].value = '';
             $('#input_route')[0].value = '';
             $('#input_type')[0].value = '';
             $('#input_exp')[0].value = '';
             $('#input_num')[0].value = '';
-
-
         });
 
 
@@ -287,13 +283,13 @@ $(document).ready(function(){
         });
     })
 
-    // #api
-    console.log('getting licenses');
-    get_licences().then(data => {
-        // тут делаешь что хочешь с датой
-        console.log(data);
-    });
-    console.log('adding license');
-    add_license('a111bb', 'Moscow-Tver-SPb', '333', '2018-09-01', '2018-09-11');
+    // // #api
+    // console.log('getting licenses');
+    // get_licences().then(data => {
+    //     // тут делаешь что хочешь с датой
+    //     console.log(data);
+    // });
+    // console.log('adding license');
+    // add_license('a111bb', 'Moscow-Tver-SPb', '333', '2018-09-01', '2018-09-11');
 
 });

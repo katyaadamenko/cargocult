@@ -18,7 +18,8 @@ async function add_license(track, route, number, start_date, end_date) {
     alert('filed to post new license! =(');
     return;
   }
-  const data = await response.json();
-  console.log('succesfully created new license')
-  console.log(data);
+  return response.json();
+  // const data = await response.json();
+  // console.log('succesfully created new license')
+  // console.log(data);
 }

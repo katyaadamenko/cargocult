@@ -130,3 +130,8 @@ STATICFILES_DIRS = [
 
 MODELS_ROOT = os.path.join(BASE_DIR, 'models')
 
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass

@@ -287,4 +287,13 @@ $(document).ready(function(){
         });
     })
 
+    // #api
+    console.log('getting licenses');
+    get_licences().then(data => {
+        // тут делаешь что хочешь с датой
+        console.log(data);
+    });
+    console.log('adding license');
+    add_license('a111bb', 'Moscow-Tver-SPb', '333', '2018-09-01', '2018-09-11');
+
 });

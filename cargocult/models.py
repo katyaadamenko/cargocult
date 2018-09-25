@@ -19,9 +19,17 @@ class Route(models.Model):
 
 
 class License(models.Model):
-    track = models.ForeignKey(Track, on_delete=models.CASCADE)
-    route = models.ForeignKey(Route, on_delete=models.CASCADE)
+    track = models.CharField('Номерной знак', max_length=10)
+    route = models.TextField('Маршрут')
     number = models.CharField("Номер", max_length=10)
     start_date = models.DateField("Дата выдачи")
     end_date = models.DateField("Дата окончания")
     remaining_trips = models.IntegerField("Число оставшихся поездок", default=10)
+
+# class License(models.Model):
+#     track = models.ForeignKey(Track, on_delete=models.CASCADE)
+#     route = models.ForeignKey(Route, on_delete=models.CASCADE)
+#     number = models.CharField("Номер", max_length=10)
+#     start_date = models.DateField("Дата выдачи")
+#     end_date = models.DateField("Дата окончания")
+#     remaining_trips = models.IntegerField("Число оставшихся поездок", default=10)

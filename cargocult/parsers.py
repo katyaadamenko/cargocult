@@ -1,13 +1,16 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+import pandas as pd
 
 
 def init_driver():
     options = webdriver.firefox.options.Options()
     options.set_headless(headless=True)
     driver = webdriver.Firefox(firefox_options=options)
-    # driver.wait = WebDriverWait(driver, 5)
+    driver.wait = WebDriverWait(driver, 20)
     return driver
 
 def get_text(driver, class_name):
@@ -17,13 +20,29 @@ def get_text(driver, class_name):
     ]
 
 def parse(depart, dest):
-    link = 'http://loads.ati.su/#?filter={"exactFromGeos":true,"exactToGeos":true,"height":{"from":4},"width":{"from":2.55},"fromGeo":"2_73","from":"Северо-Западный фед.округ","to":"Центральный федеральный округ","fromList":{"id":"6f5e4ef8-e210-e311-b4ec-00259038ec34","type":2,"name":"Северо-Западный фед.округ"},"fromGeo_tmp":"2_73","toList":{"id":"ee634ef8-e210-e311-b4ec-00259038ec34","type":2,"name":"Центральный федеральный округ"},"toGeo_tmp":"2_290"}'
+    link = 'http://loads.ati.su/'
 
     try:
         driver = init_driver()
         driver.get(link)
     except TimeoutException:
         print('Connection is broken')
+        
+    box_from = driver.wait.until(EC.presence_of_element_located(
+            (By.ID, "from")))
+    box_from.send_keys(depart)
+    
+    box_to = driver.wait.until(EC.presence_of_element_located(
+            (By.ID, "to")))
+    box_to.send_keys(dest)
+    
+    button = driver.wait.until(EC.element_to_be_clickable(
+            (By.CLASS_NAME, "ati-button-group")))
+    
+    button.click()
+
+    driver.wait.until(EC.presence_of_element_located(
+            (By.CLASS_NAME, "search-found")))
 
     cities = get_text(driver, "load-main-city")
     streets = get_text(driver, "load-street")
@@ -34,9 +53,15 @@ def parse(depart, dest):
         
     driver.quit()
     
-    return list(zip(cities[0::2], cities[1::2], streets[0::2], streets[1::2], types, weights, dimensions, distance))
-
+    keys = ['city1', 'city2', 'street1', 'street2', 'Type', 'Weight', 'Dimensions', 'Distance']
+    
+    l = list(zip(cities[0::2], cities[1::2], streets[0::2], streets[1::2], types, weights, dimensions, distance))
+    
+    df = pd.DataFrame(l, columns=['city1', 'city2', 'street1', 'street2', 'Type', 'Weight', 'Dimensions', 'Distance'])
+    
+    return df
+     
 if __name__ == '__main__':
     print(
-        parse('', '')
+        parse(u"Центральный федеральный округ", u"Южный федеральный округ")
     )

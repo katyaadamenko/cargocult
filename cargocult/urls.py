@@ -27,4 +27,6 @@ urlpatterns = [
     url(r'^api/orders/$', OrdersView.as_view()),
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
     # url(r'^add_file/', add_file),
+    
+    path('admin/', admin.site.urls),
 ]

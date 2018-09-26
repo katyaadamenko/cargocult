@@ -1,7 +1,10 @@
 from django.views.generic.base import TemplateView
 from django.views import View
 from django.http import JsonResponse
-from rest_framework import viewsets
+from django.core.files.storage import FileSystemStorage
+from rest_framework import viewsets, views
+from rest_framework.parsers import FileUploadParser
+from rest_framework.response import Response
 
 from .models import Track, Point, Route, License
 from .serializers import TrackSerializer, PointSerializer, RouteSerializer, LicenseSerializer
@@ -42,6 +45,16 @@ class LicenseViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save()
+
+
+class FileUploadView(views.APIView):
+    parser_classes = (FileUploadParser,)
+
+    def put(self, request, filename, format=None):
+        file = request.data['file']
+        fs = FileSystemStorage()
+        fs.save(filename, file)
+        return Response(status=204)
 
 
 # def add_file(request):

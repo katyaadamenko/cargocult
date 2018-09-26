@@ -12,7 +12,7 @@ from .views import (
     RouteViewSet,
     LicenseViewSet,
     OrdersView,
-    FileUploadView
+    FileUploadView,
 )
 
 
@@ -29,8 +29,9 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api/orders/$', OrdersView.as_view()),
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
-    # url(r'^add_file/', add_file),
+
     url(r'^upload/(?P<filename>[^/]+)$', FileUploadView.as_view()),
+
     path('admin/', admin.site.urls),
 ]
 

@@ -57,22 +57,6 @@ class FileUploadView(views.APIView):
         return Response(status=204)
 
 
-# def add_file(request):
-#     if request.method == 'POST':
-#         form = UploadFileForm(request.POST, request.FILES)
-#         if form.is_valid():
-#
-#             add_file_v2(request.FILES['file'], version=2,
-#                         description=request.POST['description'],
-#                         dolphin_name=request.POST['dolphin_name'],
-#                         datetime=request.POST['datetime'])
-#
-#             return HttpResponseRedirect(reverse(get_file_list))
-#     else:
-#         form = UploadFileForm()
-#     return render(request, 'add.html', {'form': form})
-
-
 class OrdersView(View):
     def get(self, request, *args, **kwargs):
         orders = parse('', '')

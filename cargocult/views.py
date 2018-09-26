@@ -1,7 +1,10 @@
 from django.views.generic.base import TemplateView
 from django.views import View
 from django.http import JsonResponse
-from rest_framework import viewsets
+from django.core.files.storage import FileSystemStorage
+from rest_framework import viewsets, views
+from rest_framework.parsers import FileUploadParser
+from rest_framework.response import Response
 
 from .models import Track, Point, Route, License
 from .serializers import TrackSerializer, PointSerializer, RouteSerializer, LicenseSerializer
@@ -44,20 +47,14 @@ class LicenseViewSet(viewsets.ModelViewSet):
         serializer.save()
 
 
-# def add_file(request):
-#     if request.method == 'POST':
-#         form = UploadFileForm(request.POST, request.FILES)
-#         if form.is_valid():
-#
-#             add_file_v2(request.FILES['file'], version=2,
-#                         description=request.POST['description'],
-#                         dolphin_name=request.POST['dolphin_name'],
-#                         datetime=request.POST['datetime'])
-#
-#             return HttpResponseRedirect(reverse(get_file_list))
-#     else:
-#         form = UploadFileForm()
-#     return render(request, 'add.html', {'form': form})
+class FileUploadView(views.APIView):
+    parser_classes = (FileUploadParser,)
+
+    def put(self, request, filename, format=None):
+        file = request.data['file']
+        fs = FileSystemStorage()
+        fs.save(filename, file)
+        return Response(status=204)
 
 
 class OrdersView(View):

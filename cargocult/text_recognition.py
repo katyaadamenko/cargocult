@@ -19,7 +19,9 @@ def make_driver(debug=False):
         options.set_headless(headless=True)
         driver = webdriver.Firefox(firefox_options=options)
 
-    driver.wait = WebDriverWait(driver, 20)
+    driver.wait5 = WebDriverWait(driver, 5)
+    driver.wait20 = WebDriverWait(driver, 20)
+    driver.wait100 = WebDriverWait(driver, 100)
 
     try:
         yield driver
@@ -38,7 +40,7 @@ def recognise(filepath, debug=False):
 
         box_mail = driver.wait.until(EC.presence_of_element_located(
                 (By.ID, "email-Layout")))
-        box_mail.send_keys('lana_krlv1995@mail.ru')
+        box_mail.send_keys('sleepycoala@yandex.ru')
 
         box_pswd = driver.wait.until(EC.presence_of_element_located(
                 (By.ID, "password-Layout")))
@@ -47,15 +49,21 @@ def recognise(filepath, debug=False):
         next_button = driver.wait.until(EC.element_to_be_clickable(
                 (By.CLASS_NAME, "button-green")))
         next_button.click()
+        
+        delete_lang_button = driver.find_element_by_xpath("//a[@class='button-delete clickable']")
+        delete_lang_button.click()
 
-        button = driver.wait.until(EC.element_to_be_clickable(
+        text_button = driver.find_element_by_xpath("//img[@src='/Content/images/format-text@2x.png']")
+        text_button.click()
+
+        button = driver.wait5.until(EC.element_to_be_clickable(
                 (By.ID, "pickfiles")))
         button.click()
 
         driver.find_element_by_css_selector('input[type="file"]').clear()
         driver.find_element_by_css_selector('input[type="file"]').send_keys(filepath)
 
-        driver.wait.until(EC.presence_of_element_located(
+        driver.wait20.until(EC.presence_of_element_located(
                 (By.CLASS_NAME, "result-selected-text")))
 
         print('before sleep')
@@ -66,11 +74,11 @@ def recognise(filepath, debug=False):
                 (By.ID, "CybotCookiebotDialogBodyButtonAccept")))
         cookie_button.click()
 
-        recognize_button = driver.wait.until(EC.element_to_be_clickable(
+        recognize_button = driver.wait5.until(EC.element_to_be_clickable(
                 (By.ID, "recognize-btn-value")))
         recognize_button.click()
 
-        download = driver.wait.until(EC.element_to_be_clickable(
+        download = driver.wait100.until(EC.element_to_be_clickable(
                 (By.CLASS_NAME, "task-item-download")))
         download.click()
 

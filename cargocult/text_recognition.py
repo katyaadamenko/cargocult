@@ -34,19 +34,19 @@ def recognise(filepath, debug=False):
     with make_driver(debug) as driver:
         driver.get(link)
  
-        login_button = driver.wait.until(EC.element_to_be_clickable(
+        login_button = driver.wait5.until(EC.element_to_be_clickable(
                 (By.CLASS_NAME, "modal-login-btn")))
         login_button.click()
 
-        box_mail = driver.wait.until(EC.presence_of_element_located(
+        box_mail = driver.wait5.until(EC.presence_of_element_located(
                 (By.ID, "email-Layout")))
         box_mail.send_keys('sleepycoala@yandex.ru')
 
-        box_pswd = driver.wait.until(EC.presence_of_element_located(
+        box_pswd = driver.wait5.until(EC.presence_of_element_located(
                 (By.ID, "password-Layout")))
         box_pswd.send_keys('cargocult')
 
-        next_button = driver.wait.until(EC.element_to_be_clickable(
+        next_button = driver.wait5.until(EC.element_to_be_clickable(
                 (By.CLASS_NAME, "button-green")))
         next_button.click()
         
@@ -70,7 +70,7 @@ def recognise(filepath, debug=False):
         time.sleep(10)
         print ("wait's over")
 
-        cookie_button = driver.wait.until(EC.element_to_be_clickable(
+        cookie_button = driver.wait5.until(EC.element_to_be_clickable(
                 (By.ID, "CybotCookiebotDialogBodyButtonAccept")))
         cookie_button.click()
 

@@ -18,10 +18,16 @@ def make_driver(debug=False):
         options = webdriver.firefox.options.Options()
         options.set_headless(headless=True)
         driver = webdriver.Firefox(firefox_options=options)
-
+        
     driver.wait5 = WebDriverWait(driver, 5)
     driver.wait20 = WebDriverWait(driver, 20)
     driver.wait100 = WebDriverWait(driver, 100)
+    
+    profile = webdriver.FirefoxProfile()
+    profile.set_preference("browser.download.folderList", 2)
+    profile.set_preference("browser.download.manager.showWhenStarting", False)
+    profile.set_preference("browser.download.dir", './')
+    profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/txt")
 
     try:
         yield driver
@@ -40,7 +46,7 @@ def recognise(filepath, debug=False):
 
         box_mail = driver.wait5.until(EC.presence_of_element_located(
                 (By.ID, "email-Layout")))
-        box_mail.send_keys('sleepycoala@yandex.ru')
+        box_mail.send_keys('Lusine.Airapetyan@skoltech.ru')
 
         box_pswd = driver.wait5.until(EC.presence_of_element_located(
                 (By.ID, "password-Layout")))
@@ -50,11 +56,11 @@ def recognise(filepath, debug=False):
                 (By.CLASS_NAME, "button-green")))
         next_button.click()
         
-        delete_lang_button = driver.find_element_by_xpath("//a[@class='button-delete clickable']")
-        delete_lang_button.click()
-
         text_button = driver.find_element_by_xpath("//img[@src='/Content/images/format-text@2x.png']")
         text_button.click()
+        
+        delete_lang_button = driver.find_element_by_xpath("//a[@class='button-delete clickable']")
+        delete_lang_button.click()
 
         button = driver.wait5.until(EC.element_to_be_clickable(
                 (By.ID, "pickfiles")))
@@ -81,8 +87,7 @@ def recognise(filepath, debug=False):
         download = driver.wait100.until(EC.element_to_be_clickable(
                 (By.CLASS_NAME, "task-item-download")))
         download.click()
-
-
+        
 if __name__ == '__main__':
     image_one = Path('./Ишим-Волково до 16.10.18.JPG')
     image_two = Path('../route_1.jpg')

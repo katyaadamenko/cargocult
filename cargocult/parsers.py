@@ -3,7 +3,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-import pandas as pd
 
 
 def init_driver():
@@ -20,6 +19,10 @@ def get_text(driver, class_name):
     ]
 
 def parse(depart, dest):
+    '''
+    returns list of tuples with signature:
+        'city1', 'city2', 'street1', 'street2', 'Type', 'Weight', 'Dimensions', 'Distance'
+    '''
     link = 'http://loads.ati.su/'
 
     try:
@@ -53,13 +56,7 @@ def parse(depart, dest):
         
     driver.quit()
     
-    keys = ['city1', 'city2', 'street1', 'street2', 'Type', 'Weight', 'Dimensions', 'Distance']
-    
-    l = list(zip(cities[0::2], cities[1::2], streets[0::2], streets[1::2], types, weights, dimensions, distance))
-    
-    df = pd.DataFrame(l, columns=['city1', 'city2', 'street1', 'street2', 'Type', 'Weight', 'Dimensions', 'Distance'])
-    
-    return df
+    return list(zip(cities[0::2], cities[1::2], streets[0::2], streets[1::2], types, weights, dimensions, distance))
      
 if __name__ == '__main__':
     print(

@@ -7,7 +7,7 @@ from selenium.common.exceptions import TimeoutException
 
 def init_driver():
     options = webdriver.firefox.options.Options()
-    options.set_headless(headless=True)
+    # options.set_headless(headless=True)
     driver = webdriver.Firefox(firefox_options=options)
     driver.wait = WebDriverWait(driver, 20)
     return driver
@@ -47,22 +47,6 @@ def parse(depart, dest):
     driver.wait.until(EC.presence_of_element_located(
             (By.CLASS_NAME, "search-found")))
 
-    box_from = driver.wait.until(EC.presence_of_element_located(
-            (By.ID, "from")))
-    box_from.send_keys(depart)
-    
-    box_to = driver.wait.until(EC.presence_of_element_located(
-            (By.ID, "to")))
-    box_to.send_keys(dest)
-
-    button = driver.wait.until(EC.element_to_be_clickable(
-            (By.CLASS_NAME, "ati-button-group")))
-    
-    button.click()
-
-    driver.wait.until(EC.presence_of_element_located(
-            (By.CLASS_NAME, "search-found")))
-
     cities = get_text(driver, "load-main-city")
     streets = get_text(driver, "load-street")
     types = get_text(driver, "load-cargo-type")[1:]
@@ -76,5 +60,5 @@ def parse(depart, dest):
      
 if __name__ == '__main__':
     print(
-        parse(u"Центральный федеральный округ", u"Южный федеральный округ")
+        parse(u"Москва (регион), Россия", u"Санкт-Петербург (регион), Россия")
     )

@@ -71,8 +71,6 @@ def parse(depart, dest):
     distance = get_text(driver, "route-distance") # todo add href
         
     driver.quit()
-
-    names = ['city1', 'city2', 'street1', 'street2', 'Type', 'Weight', 'Dimensions', 'Distance']
     
     return list(zip(cities[0::2], cities[1::2], streets[0::2], streets[1::2], types, weights, dimensions, distance))
      

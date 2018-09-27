@@ -12,28 +12,28 @@ from selenium.webdriver.support.ui import Select
 
 @contextmanager
 def make_driver(debug=False):
-    if debug:
-        driver = webdriver.Firefox()
-    else:
-        options = webdriver.firefox.options.Options()
-        options.set_headless(headless=True)
-        driver = webdriver.Firefox(firefox_options=options)
-        
-    driver.wait5 = WebDriverWait(driver, 5)
-    driver.wait20 = WebDriverWait(driver, 20)
-    driver.wait100 = WebDriverWait(driver, 100)
-    
     profile = webdriver.FirefoxProfile()
     profile.set_preference("browser.download.folderList", 2)
     profile.set_preference("browser.download.manager.showWhenStarting", False)
     profile.set_preference("browser.download.dir", './')
     profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/txt")
+    profile.set_preference("browser.helperApps.neverAsk.saveToDisk","text/csv")
+
+    options = webdriver.firefox.options.Options()
+    if not debug:
+        options.set_headless(headless=True)
+
+    driver = webdriver.Firefox(firefox_options=options, firefox_profile=profile)
+
+    driver.wait5 = WebDriverWait(driver, 5)
+    driver.wait20 = WebDriverWait(driver, 20)
+    driver.wait100 = WebDriverWait(driver, 100)
 
     try:
         yield driver
     finally:
         driver.quit()
-    
+
 def recognise(filepath, debug=False):
     link = 'https://finereaderonline.com/ru-ru/Tasks/Create'
 

@@ -18,32 +18,50 @@ $(document).ready(function () {
         });
 
         var myGeoObjects = new ymaps.GeoObjectCollection();
-        myGeoObjects.add(new ymaps.Placemark([13.38, 52.51]));
-        myGeoObjects.add(new ymaps.Placemark([30.30, 50.27]));
-        myGeoObjects.add(new ymaps.Polyline([[13.38, 52.51], [30.30, 50.27]]));
 
 
         get_licences().then(data => {
-            var my_routes = new ymaps.GeoObjectCollection();
+            var my_routes = new ymaps.GeoObjectCollection;
+            var everything = new ymaps.GeoObjectCollection;
+
 
             for (var i = 0; i < data.length; i++) {
-
                 var arr = data[i].route.split(' - ');
                 var len = arr.length;
                 ymaps.route([arr[0], arr[len - 1]], {
                     // mapStateAutoApply: true
                 }).then(function (route) {
                     my_routes.add(route);
+                    console.log('here');
+
                     route.getPaths().options.set({
                         strokeColor: getRandomColor(),
                     });
+
+                    for (var i = 0; i < route.getPaths().getLength(); i++) {
+                        way = route.getPaths().get(i);
+                        segments = way.getSegments();
+                        for (var j = 0; j < segments.length; j++) {
+                            var street = segments[j].getStreet();
+                            moveList += ('Едем ' + segments[j].getHumanAction() + (street ? ' на ' + street : '') + ', проезжаем ' + segments[j].getLength() + ' м.,');
+                            moveList += '</br>'
+                        }
+                    }
+
+                    for(var j=0; j<route.getPaths().getLength(); j++){
+                        var w = route.getPaths().get(i);
+                        everything.add(w);
+                    }
+
                 });
             }
 
-            myMap.geoObjects.add(myGeoObjects);
-            myMap.setBounds(myGeoObjects.getBounds());
-            console.log(my_routes);
-            // myMap.geoObjects.add(my_routes);
+            // myMap.geoObjects.add(myGeoObjects);
+            // myMap.setBounds(myGeoObjects.getBounds());
+
+            console.log(everything);
+            myMap.geoObjects.add(my_routes);
+            // myMap.setBounds();
             // myMap.setBounds(my_routes.getBounds());
         })
     }
@@ -228,14 +246,5 @@ $(document).ready(function () {
             $('#liord').css('color', 'black');
         });
     })
-
-    // // #api
-    // console.log('getting licenses');
-    // get_licences().then(data => {
-    //     // тут делаешь что хочешь с датой
-    //     console.log(data);
-    // });
-    // console.log('adding license');
-    // add_license('a111bb', 'Moscow-Tver-SPb', '333', '2018-09-01', '2018-09-11');
 
 });

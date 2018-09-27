@@ -25,7 +25,6 @@ router.register(r'licences', LicenseViewSet)
 
 urlpatterns = [
     url(r'^index/$', IndexView.as_view()),
-
     url(r'^api/', include(router.urls)),
     url(r'^api/orders/$', OrdersView.as_view()),
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),

@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
     function getRandomColor() {
         var letters = '0123456789ABCDEF';
@@ -10,112 +10,61 @@ $(document).ready(function(){
     }
 
 
-    function init() {
-
-        // Объявляем набор опорных точек и массив индексов транзитных точек.
-        var referencePoints = frame.list_of_lics[0],
-            viaIndexes = [2];
-
-        // Создаем мультимаршрут и настраиваем его внешний вид с помощью опций.
-        var multiRoute = new ymaps.multiRouter.MultiRoute({
-            referencePoints: referencePoints,
-            // params: {viaIndexes: viaIndexes},
-        }, {
-            boundsAutoApply: true,
-            // Внешний вид путевых точек.
-            wayPointStartIconColor: "#333",
-            wayPointStartIconFillColor: "#B3B3B3",
-            // Задаем собственную картинку для последней путевой точки.
-            // Внешний вид транзитных точек.
-            viaPointIconRadius: 7,
-            viaPointIconFillColor: "#000088",
-            viaPointActiveIconFillColor: "#E63E92",
-            // Транзитные точки можно перетаскивать, при этом
-            // маршрут будет перестраиваться.
-            viaPointDraggable: true,
-            // Позволяет скрыть иконки транзитных точек маршрута.
-            // viaPointVisible:false,
-
-            // Внешний вид точечных маркеров под путевыми точками.
-            pinIconFillColor: "#000088",
-            pinActiveIconFillColor: "#B3B3B3",
-            // Позволяет скрыть точечные маркеры путевых точек.
-            // pinVisible:false,
-
-            // Внешний вид линии маршрута.
-            routeStrokeWidth: 2,
-            routeStrokeColor: "#000088",
-            routeActiveStrokeWidth: 6,
-            routeActiveStrokeColor: "#E63E92",
-
-            // Внешний вид линии пешеходного маршрута.
-            routeActivePedestrianSegmentStrokeStyle: "solid",
-            routeActivePedestrianSegmentStrokeColor: "#00CDCD",
-
-            // Автоматически устанавливать границы карты так, чтобы маршрут был виден целиком.
-        });
-
-        // Настраиваем внешний вид второй точки через прямой доступ к ней.
-
-
-        // Создаем кнопки.
-
-
-        // Создаем карту с добавленной на нее кнопкой.
-        var myMap = new ymaps.Map('map', {
-            center: [55.739625, 37.54120],
-            zoom: 0
-        });
-
-        // Добавляем мультимаршрут на карту.
-        myMap.geoObjects.add(multiRoute);
-    }
-
     function init2() {
-
-
-
-
-
+        ymaps.ready();
         var myMap = new ymaps.Map('map', {
             center: [55.739625, 37.54120],
             zoom: 0
         });
 
-        for(var i=0; i<frame.list_of_lics.length; i++) {
+        var myGeoObjects = new ymaps.GeoObjectCollection();
 
-            ymaps.route(frame.list_of_lics[i], {
-                mapStateAutoApply: true
-            }).then(function (route) {
-                route.getPaths().options.set({
-                    // В балуне выводим только информацию о времени движения с учетом пробок.
-                    balloonContentLayout: ymaps.templateLayoutFactory.createClass('{{ properties.humanJamsTime }}'),
-                    // Можно выставить настройки графики маршруту.
-                    strokeColor: getRandomColor()
+
+        get_licences().then(data => {
+            var my_routes = new ymaps.GeoObjectCollection;
+            var everything = new ymaps.GeoObjectCollection;
+
+
+            for (var i = 0; i < data.length; i++) {
+                var arr = data[i].route.split(' - ');
+                var len = arr.length;
+                ymaps.route([arr[0], arr[len - 1]], {
+                    // mapStateAutoApply: true
+                }).then(function (route) {
+                    my_routes.add(route);
+                    console.log('here');
+
+                    route.getPaths().options.set({
+                        strokeColor: getRandomColor(),
+                    });
+
+                    for (var i = 0; i < route.getPaths().getLength(); i++) {
+                        way = route.getPaths().get(i);
+                        segments = way.getSegments();
+                        for (var j = 0; j < segments.length; j++) {
+                            var street = segments[j].getStreet();
+                            moveList += ('Едем ' + segments[j].getHumanAction() + (street ? ' на ' + street : '') + ', проезжаем ' + segments[j].getLength() + ' м.,');
+                            moveList += '</br>'
+                        }
+                    }
+
+                    for(var j=0; j<route.getPaths().getLength(); j++){
+                        var w = route.getPaths().get(i);
+                        everything.add(w);
+                    }
+
                 });
-                // добавляем маршрут на карту
-                myMap.geoObjects.add(route);
-            });
-        }
+            }
 
-        //
-        //     ymaps.route(frame.list_of_lics[i]).then(function (route) {
-        //         route.options.set("mapStateAutoApply", true);
-        //         console.log(route.options);
-        //         console.log('here');
-        //         myMap.geoObjects.add(route);
-        //     }, function (err) {
-        //         throw err;
-        //     }, this);
-        // }
+            // myMap.geoObjects.add(myGeoObjects);
+            // myMap.setBounds(myGeoObjects.getBounds());
+
+            console.log(everything);
+            myMap.geoObjects.add(my_routes);
+            // myMap.setBounds();
+            // myMap.setBounds(my_routes.getBounds());
+        })
     }
-
-
-
-
-
-
-
 
     class Licence {
         constructor(id, route, type, expire, num) {
@@ -127,20 +76,34 @@ $(document).ready(function(){
         }
     }
 
-    var lic1 = new Licence('TP200X177', 'Moscow - St.Peterburg', 'Sand', '02.01.2019', 3);
-    var lic2 = new Licence('TP300X177', 'Tver - St.Peterburg', 'Turbo Engine', '30.03.2019', 4);
     var is_open = false;
+    var draw_tables = function (id, route, type, exp, num) {
+        return '<tr><td>' + id + '</td><td>' + route + '</td><td>' + type + '</td><td>' + exp + '</td><td>' + num + '</td></tr>'
+    }
 
+    get_licences().then(data => {
+        for (var i = 0; i < data.length; i++) {
+            $('#lic_body').append(draw_tables(
+                data[i].track,
+                data[i].route.split(' - '),
+                data[i].number,
+                data[i].start_date,
+                data[i].end_date,
+                )
+            )
+        }
+    });
 
-    function main_frame(){
-        // this.list_of_lics = [lic1, lic2];
+    function main_frame() {
+
         this.list_of_lics = [];
         var content = document.getElementsByClassName('inside')[0].getElementsByTagName('*');
         var list_of_content = [];
 
-        for(var i = 0; i < content.length; i++){
+        for (var i = 0; i < content.length; i++) {
             list_of_content.push(content[i].id);
         }
+
         this.active_tab = content[0].id;
         this.len = content.length;
         this.list_of_content = content;
@@ -171,51 +134,51 @@ $(document).ready(function(){
             })
 
 
-
         //Creating lics manually
 
-        $('#confirm').unbind().click(function ()
-        {
-            console.log(frame.list_of_lics);
+        $('#confirm').unbind().click(function () {
             var lic = new Licence(
-            $('#input_id')[0].value,
-            $('#input_route')[0].value.split(' - '),
-            $('#input_type')[0].value,
-            $('#input_exp')[0].value,
-            $('#input_num')[0].value);
+                $('#input_id')[0].value,
+                $('#input_route')[0].value,
+                $('#input_type')[0].value,
+                $('#input_exp')[0].value,
+                $('#input_num')[0].value);
+            console.log(lic);
+
+            // var resp = add_license(lic.id, lic.route[0], lic.num, lic.expire, lic.type);
+            console.log(lic);
+
+            add_license(lic.id, lic.route, lic.type, lic.expire, lic.num);
+
+            $('#lic_body').append(draw_tables(lic.id, lic.route.split(' - '), lic.type, lic.expire, lic.num));
+
             $('#warn').remove();
             $('.context').hide();
             $('.wrapper').css('opacity', '1');
             console.log($('#input_route'));
-            $('#lic_body').append('<tr><td>' + lic.id + '</td><td>' + $('#input_route')[0].value.split(' - ')[0] + '-' + $('#input_route')[0].value.split(' - ')[$('#input_route').length + 1] + '</td><td>' + lic.type + '</td><td>' + lic.expire + '</td><td>' + lic.num + '</td></tr>');
+            $('#lic_body').append();
             frame.list_of_lics.push(lic.route);
+
             delete lic;
             $('#input_id')[0].value = '';
             $('#input_route')[0].value = '';
             $('#input_type')[0].value = '';
             $('#input_exp')[0].value = '';
             $('#input_num')[0].value = '';
-
-
         });
 
 
-
-        $(document).unbind().mouseup(function(e)
-        {
+        $(document).unbind().mouseup(function (e) {
             var container = $(".context");
             // if the target of the click isn't the container nor a descendant of the container
-            if (!container.is(e.target) && container.has(e.target).length === 0)
-            {
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
                 container.hide();
                 $('.wrapper').animate({opacity: 1}, 100);
             }
         });
 
 
-
-
-        if($('#lic_body').children().length === 0) {
+        if ($('#lic_body').children().length === 0) {
             $('.main-table').css('display', 'block');
             $('.main-table').css('text-align', 'center');
             $('.main-table').append('<p id="warn">There are not any licenses. Add one?<p>');
@@ -230,12 +193,9 @@ $(document).ready(function(){
         })
 
         $('.shapka').unbind().mousedown(function () {
-                $('.context').hide(10);
-            $('table').append('<tr style="color: orange; opacity: 0.8"><td>ME345A199</td><td>Reutov - Chelyabinsk</td><td>Rise</td><td>03.04.2019</td><td>0</td></tr>');
+            console.log(myMap.geoObjects);
             return false;
         })
-
-
 
 
         $('.add').unbind().click(function () {
@@ -243,16 +203,16 @@ $(document).ready(function(){
             $('.context').show(500);
         })
 
-        $('.container li').hover(function(){
+        $('.container li').hover(function () {
             $(this).css('color', 'black');
-        }, function(){
-            if(this.id !== frame.active_tab) {
+        }, function () {
+            if (this.id !== frame.active_tab) {
                 $(this).css('color', 'white');
             }
         });
 
 
-        $('#lilic').click(function() {
+        $('#lilic').click(function () {
             frame.active_tab = 'lilic';
             $('div.main-table').css('display', 'flex');
             $('#map').css('display', 'none');
@@ -262,7 +222,7 @@ $(document).ready(function(){
             $('#liord').css('color', 'white');
         });
 
-        $('#limap').unbind().click(function() {
+        $('#limap').unbind().click(function () {
             frame.active_tab = 'limap';
             $('div.main-table').css('display', 'none');
             $('#map').css('display', 'flex');
@@ -276,7 +236,7 @@ $(document).ready(function(){
 
         });
 
-        $('#liord').click(function() {
+        $('#liord').click(function () {
             frame.active_tab = 'liord';
             $('div.main-table').css('display', 'none');
             $('#map').css('display', 'none');

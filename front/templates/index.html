@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     {% load staticfiles %}
-    <title>CargoCult - manage your license</title>
+    <title>QargoCult - manage your license</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href={% static "bootstrap/css/bootstrap.min.css"%}>
@@ -14,6 +14,7 @@
     <script src="https://api-maps.yandex.ru/2.1/?lang=en_US" type="text/javascript"></script>
 
 
+    <script src={% static "js/api_utils.js"%}></script>
     <script src={% static "js/script.js"%}></script>
 </head>
 <body style="text-align: center">
@@ -30,9 +31,9 @@
     <li>or type manually</li>
             <li style="text-align: left">Car ID<input type="text" id="input_id" style="width: 100%; height: 50px"></li>
             <li style="text-align: left">Route<input type="text" id="input_route" style="width: 100%; height: 50px"></li>
-            <li style="text-align: left">Type<input type="text" id="input_type" style="width: 100%; height: 50px"></li>
-            <li style="text-align: left">Expire<input type="text" id="input_exp" style="width: 100%; height: 50px"></li>
-            <li style="text-align: left">Number<input type="text" id="input_num" style="width: 100%; height: 50px"></li>
+            <li style="text-align: left">Number<input type="text" id="input_type" style="width: 100%; height: 50px"></li>
+            <li style="text-align: left">Start date<input type="text" id="input_exp" style="width: 100%; height: 50px"></li>
+            <li style="text-align: left">Expire date<input type="text" id="input_num" style="width: 100%; height: 50px"></li>
             <li><div id="confirm" style="width: 100%; height: 50px; margin-top: 15px; background-color: #0b2e13; color: white; font-size: 25pt; cursor: pointer">Confirm</div></li>
         </ul>
     </div>
@@ -59,9 +60,9 @@
         <tr class="table-title">
             <th>Car ID</th>
             <th>Route</th>
-            <th>Type</th>
-            <th>Expired by</th>
-            <th class=>Trips was made</th>
+            <th>Number</th>
+            <th>Start date</th>
+            <th>Expire date</th>
         </tr>
         </thead>
         <tbody id="lic_body">

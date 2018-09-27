@@ -1,29 +1,31 @@
 import re
 
-def parse(text):
+def parse(text_file):
     
     streets = dict()
     
     i = -1
     
-    new_text = text.replace('Р-', 'Р=').replace('М-', 'М=').split('-')
-    
-    for item in new_text:
+    for text in text_file:
 
-        s = item.strip()
+        new_text = text.replace('Р-', 'Р=').replace('М-', 'М=').split('-')
         
-        if s.startswith('а/д')|s.startswith('А/д'):
+        for item in new_text:
+
+            s = item.strip()
             
-            i += 1
-            streets[i] = list()
-            streets[i].append(s)
-        
-        else:
-            
-            if i != -1:
-            
+            if s.startswith('а/д')|s.startswith('А/д'):
+                
+                i += 1
+                streets[i] = list()
                 streets[i].append(s)
             
+            else:
+                
+                if i != -1:
+                
+                    streets[i].append(s)
+    
     return streets
 
 
@@ -33,8 +35,8 @@ def hardcode(txt, towns):
     
     streets = parse(txt)
     
-    cities = towns.split('\n')
-    
+    cities = [town.strip() for town in towns.split('\n')]
+
     res = []
     
     for key in streets:
@@ -1163,4 +1165,8 @@ if __name__ == '__main__':
     Яхрома
     '''
 
-    hardcode(txt, towns)
+    filepath = 'text'
+
+    txt = open(filepath, 'r')
+
+    print (hardcode(txt, towns))

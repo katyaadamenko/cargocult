@@ -94,6 +94,19 @@ $(document).ready(function () {
         }
     });
 
+    get_orders().then(data => {
+        for (let i = 0; i < data.length; i++) {
+            $('#orders_body').append(draw_tables(
+                data[i][0] + " - " +  data[i][1],
+                data[i][4],
+                data[i][5],
+                data[i][6] ? data[i][6] : "-",
+                data[i][7],
+                )
+            )
+        }
+    });
+
     function main_frame() {
 
         this.list_of_lics = [];
@@ -176,14 +189,6 @@ $(document).ready(function () {
                 $('.wrapper').animate({opacity: 1}, 100);
             }
         });
-
-
-        if ($('#lic_body').children().length === 0) {
-            $('.main-table').css('display', 'block');
-            $('.main-table').css('text-align', 'center');
-            $('.main-table').append('<p id="warn">There are not any licenses. Add one?<p>');
-        }
-
 
         $('table').unbind().click(function () {
             $('.main-table').hide();

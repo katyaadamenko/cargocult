@@ -59,6 +59,6 @@ class FileUploadView(views.APIView):
 
 class OrdersView(View):
     def get(self, request, *args, **kwargs):
-        orders = parse('', '')
+        orders = parse(u"Москва (регион), Россия", u"Санкт-Петербург (регион), Россия")
         print(orders)
         return JsonResponse({ 'orders': orders })

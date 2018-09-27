@@ -23,3 +23,10 @@ async function add_license(track, route, number, start_date, end_date) {
   // console.log('succesfully created new license')
   // console.log(data);
 }
+
+async function get_orders() {
+  const response = await fetch(`${apiUrl}orders/`);
+  const data = await response.json();
+  console.log(data);
+  return data.orders;
+}

@@ -12,69 +12,82 @@ from selenium.webdriver.support.ui import Select
 
 @contextmanager
 def make_driver(debug=False):
-    if debug:
-        driver = webdriver.Firefox()
-    else:
-        options = webdriver.firefox.options.Options()
-        options.set_headless(headless=True)
-        driver = webdriver.Firefox(firefox_options=options)
+    profile = webdriver.FirefoxProfile()
+    profile.set_preference("browser.download.folderList", 2)
+    profile.set_preference("browser.download.manager.showWhenStarting", False)
+    profile.set_preference("browser.download.dir", './')
+    profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/txt")
+    profile.set_preference("browser.helperApps.neverAsk.saveToDisk","text/csv")
 
-    driver.wait = WebDriverWait(driver, 20)
+    options = webdriver.firefox.options.Options()
+    if not debug:
+        options.set_headless(headless=True)
+
+    driver = webdriver.Firefox(firefox_options=options, firefox_profile=profile)
+
+    driver.wait5 = WebDriverWait(driver, 5)
+    driver.wait20 = WebDriverWait(driver, 20)
+    driver.wait100 = WebDriverWait(driver, 100)
 
     try:
         yield driver
     finally:
         driver.quit()
-    
+
 def recognise(filepath, debug=False):
     link = 'https://finereaderonline.com/ru-ru/Tasks/Create'
 
     with make_driver(debug) as driver:
         driver.get(link)
  
-        login_button = driver.wait.until(EC.element_to_be_clickable(
+        login_button = driver.wait5.until(EC.element_to_be_clickable(
                 (By.CLASS_NAME, "modal-login-btn")))
         login_button.click()
 
-        box_mail = driver.wait.until(EC.presence_of_element_located(
+        box_mail = driver.wait5.until(EC.presence_of_element_located(
                 (By.ID, "email-Layout")))
-        box_mail.send_keys('lana_krlv1995@mail.ru')
+        box_mail.send_keys('Lusine.Airapetyan@skoltech.ru')
 
-        box_pswd = driver.wait.until(EC.presence_of_element_located(
+        box_pswd = driver.wait5.until(EC.presence_of_element_located(
                 (By.ID, "password-Layout")))
         box_pswd.send_keys('cargocult')
 
-        next_button = driver.wait.until(EC.element_to_be_clickable(
+        next_button = driver.wait5.until(EC.element_to_be_clickable(
                 (By.CLASS_NAME, "button-green")))
         next_button.click()
+        
+        text_button = driver.find_element_by_xpath("//img[@src='/Content/images/format-text@2x.png']")
+        text_button.click()
+        
+        delete_lang_button = driver.find_element_by_xpath("//a[@class='button-delete clickable']")
+        delete_lang_button.click()
 
-        button = driver.wait.until(EC.element_to_be_clickable(
+        button = driver.wait5.until(EC.element_to_be_clickable(
                 (By.ID, "pickfiles")))
         button.click()
 
         driver.find_element_by_css_selector('input[type="file"]').clear()
         driver.find_element_by_css_selector('input[type="file"]').send_keys(filepath)
 
-        driver.wait.until(EC.presence_of_element_located(
+        driver.wait20.until(EC.presence_of_element_located(
                 (By.CLASS_NAME, "result-selected-text")))
 
         print('before sleep')
         time.sleep(10)
         print ("wait's over")
 
-        cookie_button = driver.wait.until(EC.element_to_be_clickable(
+        cookie_button = driver.wait5.until(EC.element_to_be_clickable(
                 (By.ID, "CybotCookiebotDialogBodyButtonAccept")))
         cookie_button.click()
 
-        recognize_button = driver.wait.until(EC.element_to_be_clickable(
+        recognize_button = driver.wait5.until(EC.element_to_be_clickable(
                 (By.ID, "recognize-btn-value")))
         recognize_button.click()
 
-        download = driver.wait.until(EC.element_to_be_clickable(
+        download = driver.wait100.until(EC.element_to_be_clickable(
                 (By.CLASS_NAME, "task-item-download")))
         download.click()
-
-
+        
 if __name__ == '__main__':
     image_one = Path('./Ишим-Волково до 16.10.18.JPG')
     image_two = Path('../route_1.jpg')

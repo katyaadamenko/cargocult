@@ -7,7 +7,7 @@ from selenium.common.exceptions import TimeoutException
 
 def init_driver():
     options = webdriver.firefox.options.Options()
-    # options.set_headless(headless=True)
+    options.set_headless(headless=True)
     driver = webdriver.Firefox(firefox_options=options)
     driver.wait = WebDriverWait(driver, 20)
     return driver

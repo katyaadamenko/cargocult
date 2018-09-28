@@ -26,6 +26,9 @@ class License(models.Model):
     end_date = models.DateField("Дата окончания")
     remaining_trips = models.IntegerField("Число оставшихся поездок", default=10)
 
+    def __str__(self):
+        return self.route
+
 # class License(models.Model):
 #     track = models.ForeignKey(Track, on_delete=models.CASCADE)
 #     route = models.ForeignKey(Route, on_delete=models.CASCADE)

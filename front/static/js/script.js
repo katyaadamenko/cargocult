@@ -14,44 +14,59 @@ $(document).ready(function () {
         ymaps.ready();
         var myMap = new ymaps.Map('map', {
             center: [55.739625, 37.54120],
-            zoom: 0
+            zoom: 3
         });
 
         var myGeoObjects = new ymaps.GeoObjectCollection();
-
 
         get_licences().then(data => {
             var my_routes = new ymaps.GeoObjectCollection;
             var everything = new ymaps.GeoObjectCollection;
 
 
-            for (var i = 0; i < data.length; i++) {
-                var arr = data[i].route.split(' - ');
-                var len = arr.length;
+            console.log(data.length);
+
+            for (let i = 0; i < data.length; i++) {
+                let arr = data[i].route.split(' - ');
+                let len = arr.length;
                 ymaps.route([arr[0], arr[len - 1]], {
                     // mapStateAutoApply: true
                 }).then(function (route) {
-                    my_routes.add(route);
-                    console.log('here');
+                    route.events.add('click', function (e) {
+                        // console.log(geoObject.Baloon(e.get('currentTarget')));
 
+                    })
+
+                    var points = route.getWayPoints(),
+                    lastPoint = points.getLength() - 1;
+                    points.options.set('preset', 'islands#greenStretchyIcon');
+                    // Задаем контент меток в начальной и конечной точках.
+                    console.log(points.get(0));
+                    points.get(0).properties.set('iconContent', route.requestPoints[0]);
+                    points.get(lastPoint).properties.set('iconContent', route.requestPoints[route.requestPoints.length - 1]);
+                    my_routes.add(route);
                     route.getPaths().options.set({
                         strokeColor: getRandomColor(),
                     });
 
-                    for (var i = 0; i < route.getPaths().getLength(); i++) {
-                        way = route.getPaths().get(i);
-                        segments = way.getSegments();
-                        for (var j = 0; j < segments.length; j++) {
-                            var street = segments[j].getStreet();
-                            moveList += ('Едем ' + segments[j].getHumanAction() + (street ? ' на ' + street : '') + ', проезжаем ' + segments[j].getLength() + ' м.,');
-                            moveList += '</br>'
-                        }
-                    }
 
-                    for(var j=0; j<route.getPaths().getLength(); j++){
-                        var w = route.getPaths().get(i);
-                        everything.add(w);
-                    }
+                    console.log(ymaps.geoObject.Baloon(route.getPaths()));
+                    // console.log('len of route', route.getPaths().getLength())
+                    // for (let i2 = 0; i2 < route.getPaths().getLength(); i++) {
+                    //     way = route.getPaths().get(i2);
+                    //     console.log(way);
+                    //     segments = way.getSegments();
+                    //     for (let j = 0; j < segments.length; j++) {
+                    //         let street = segments[j].getStreet();
+                    //         }
+                    // }
+                    //
+                    // console.log('here');
+                    //
+                    // for(var j=0; j<route.getPaths().getLength(); j++){
+                    //     var w = route.getPaths().get(i);
+                    //     everything.add(w);
+                    // }
 
                 });
             }
@@ -125,6 +140,13 @@ $(document).ready(function () {
     let frame = new main_frame();
     document.getElementById(frame.active_tab).style.color = 'black';
 
+    $('.add').hover(function () {
+        $('.add').css('backgroung-color', 'grey');
+
+    }, function () {
+        $('.add').css('backgroung-color', 'black');
+    })
+
 
     $('#lilic').css('color', 'black');
     var chosen = 'lic';
@@ -139,11 +161,14 @@ $(document).ready(function () {
                 $(this).css('color', 'black');
             })
 
+
         $('.add').hover(function () {
-                $(this).css('opacity', 0.5);
+            alert();
+
+                $('.add').css('background-color', 'white');
             },
             function () {
-                $(this).css('opacity', 0.3);
+                   $('.add').css('background-color', 'black');
             })
 
 
@@ -183,12 +208,30 @@ $(document).ready(function () {
 
         $(document).unbind().mouseup(function (e) {
             var container = $(".context");
+            var container2 = $('.hidden_table');
             // if the target of the click isn't the container nor a descendant of the container
             if (!container.is(e.target) && container.has(e.target).length === 0) {
                 container.hide();
                 $('.wrapper').animate({opacity: 1}, 100);
+
+            }if (!container2.is(e.target) && container2.has(e.target).length === 0) {
+                container2.hide();
+                $('.wrapper').animate({opacity: 1}, 100);
             }
         });
+
+        $('.suggest').click(function () {
+            $('.wrapper').animate({opacity: 0.05}, 100);
+            $('.hidden_table').show(500);
+        })
+
+
+        if ($('#lic_body').children().length === 0) {
+            $('.main-table').css('display', 'block');
+            $('.main-table').css('text-align', 'center');
+            // $('.main-table').append('<p id="warn">There are not any licenses. Add one?<p>');
+        }
+
 
         $('table').unbind().click(function () {
             $('.main-table').hide();
